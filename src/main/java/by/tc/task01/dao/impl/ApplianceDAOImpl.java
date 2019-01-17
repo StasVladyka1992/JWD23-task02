@@ -1,18 +1,13 @@
 package by.tc.task01.dao.impl;
 
 import by.tc.task01.dao.ApplianceDAO;
-import by.tc.task01.dao.parser.StringParser;
-import by.tc.task01.dao.regex_constructor.RegexConstructor;
 import by.tc.task01.entity.AppliencesFactory;
 import by.tc.task01.entity.appliance.Appliance;
 import by.tc.task01.entity.criteria.Criteria;
 import by.tc.task01.exception.AnalogIOException;
-import by.tc.task01.exception.NoParametersException;
-import by.tc.task01.exception.NullReferenceException;
-import by.tc.task01.main.Main;
+import by.tc.task01.exception.IncorrectPathToFileException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -22,24 +17,33 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static by.tc.task01.dao.util.regex_constructor.RegExConstructor.constructRegEx;
+import static by.tc.task01.dao.util.string_splitter.StringSplitter.splitString;
+
 public class ApplianceDAOImpl implements ApplianceDAO {
     private final static Logger logger = LogManager.getLogger(ApplianceDAOImpl.class);
 
-    public <E> ArrayList<Appliance> find(Criteria<E> criteria) throws AnalogIOException, NullReferenceException,
-            NoParametersException, URISyntaxException {
-        //creation of criteria and searching in the file
+    public <E> ArrayList<Appliance> find(Criteria<E> criteria) throws AnalogIOException, IncorrectPathToFileException {
+
+        //creation of criteria regex pattern
         logger.info("Start of regex construction from specified criteria");
-        String regex = RegexConstructor.constructRegEx(criteria);
+        String regex = constructRegEx(criteria);
         logger.info("Regex construction is done");
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher;
-        ArrayList<String> goodsList = new ArrayList<String>();
-        logger.info("Looking for matches in appliance-source file started");
 
-        //Get resource address:
+        //getting relative resource address:
         URL resource = ApplianceDAOImpl.class.getResource("/appliances_db.txt");
-        File file = Paths.get(resource.toURI()).toFile();
+        File file;
 
+        try {
+            file = Paths.get(resource.toURI()).toFile();
+        } catch (URISyntaxException ex) {
+            throw new IncorrectPathToFileException("Appliance-source file was't found");
+        }
+
+        ArrayList<String> goodsList = new ArrayList<>();
+        logger.info("Looking for matches in appliance-source file has started");
         try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             while (br.ready()) {
                 String line = br.readLine();
@@ -49,25 +53,22 @@ public class ApplianceDAOImpl implements ApplianceDAO {
                 }
             }
         } catch (IOException ex) {
-            throw new AnalogIOException("IOexception was thrown in <find()> (ApplianceDaoImpl)", ex);
+            throw new AnalogIOException("Error occured during reading data from file", ex);
+        }
+
+        if (goodsList.size() == 0) {
+            logger.info("No suitable appliances weren't found");
+            return new ArrayList<>();
         }
         logger.info("Looking for matches in appliance-source file is done");
-        if (goodsList.size() == 0) {
-            return new ArrayList<Appliance>();
-        }
+
+
         logger.info("Parsing of matched strings started");
-        ArrayList<String> entitiesList = StringParser.parseString(goodsList);
+        ArrayList<String> entitiesList = splitString(goodsList);
         logger.info("Parsing of matched strings is done");
         logger.info("Appliances creation started");
         ArrayList<Appliance> appliance = AppliencesFactory.getAppliance(entitiesList);
         logger.info("Appliances creation is done");
         return appliance;
     }
-
-
-    // you may add your own code here
-
 }
-
-
-//you may add your own new classes

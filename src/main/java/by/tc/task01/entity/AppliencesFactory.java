@@ -1,10 +1,6 @@
 package by.tc.task01.entity;
 
 import by.tc.task01.entity.appliance.*;
-import by.tc.task01.exception.NoParametersException;
-import by.tc.task01.exception.NullReferenceException;
-
-
 import java.util.ArrayList;
 
 /**
@@ -12,14 +8,13 @@ import java.util.ArrayList;
  * on 23.12.2018 at 20:22
  **/
 public final class AppliencesFactory {
-    public static ArrayList<Appliance> getAppliance(ArrayList<String> list) throws NullReferenceException {
+    public static ArrayList<Appliance> getAppliance(ArrayList<String> list) {
         ArrayList<Appliance> appliancesList = new ArrayList<Appliance>();
-        if (list == null || list.size()==0) {
+        if (list.size()==0) {
             return appliancesList;
         }
 
         //finding type of object
-
         if (list.get(0).equalsIgnoreCase("Oven")) {
             int numberOfFields = Oven.class.getDeclaredFields().length + 1;
             int objectsToReturnCounter = list.size() / numberOfFields;

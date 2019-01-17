@@ -1,48 +1,33 @@
-package by.tc.task01.dao.regex_constructor;
+package by.tc.task01.dao.util.regex_constructor;
 
 import by.tc.task01.entity.criteria.Criteria;
-import by.tc.task01.exception.NullReferenceException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-
 /**
  * Created by Vladyka Stas
- * on 22.12.2018 at 0:50
+ * on 18.01.2019 at 0:31
  **/
-public class RegexConstructor {
-    private static final Logger logger = LogManager.getLogger(RegexConstructor.class);
-    public static <E> String constructRegEx(Criteria<E> criteria) throws NullReferenceException {
-        if (criteria == null || criteria.getCriteria().size() == 0) {
-//            logger.error("NullReferenceException was thrown in <constructRegex()>");
-            throw new NullReferenceException("NullReferenceException was thrown in <constructRegex()>\n");
-        }
-
+public class RegExConstructor {
+    public  static <E> String constructRegEx(Criteria<E> criteria) {
         StringBuilder regex = new StringBuilder();
         int size = criteria.getCriteria().size();
 
         //main regex template construction
+        //i don't need cycle here, but it is was easier to write code through "foreach" construction
         for (Map.Entry<E, Object> pair :
                 criteria.getCriteria().entrySet()) {
-            //class name
+            //appType
             String appType = pair.getKey().getClass().getSimpleName();
-            //attribute name
-            String attribute;
-            if (pair.getKey() == null) {
-                throw new NullReferenceException("NullReferenceException was thrown in <constructRegEx>\n");
-            } else {
-                attribute = pair.getKey().toString();
-            }
-
+            //app characteristic value
+            String attribute = pair.getKey().toString();
             // if there is only one criteria for searching
             if (size == 1) {
                 regex.append(appType + " :.+?" + attribute + "=" + pair.getValue() + "[,;].+");
                 return regex.toString();
             }
             // if there are several criterias for searching:
-                // regex main template construction
+            // regex main template construction
             else {
                 regex.append(appType + " :.+?");
                 break;
@@ -61,11 +46,10 @@ public class RegexConstructor {
             }
             counter++;
         }
-
         //final regular creation
-            //adding repeated part of regex
+        //adding repeated part of regex
         regex.append(repeatedPart + "{" + (size - 1) + "}");
-            //deleting from the end of repeated part "?)"
+        //deleting from the end of repeated part "?)"
         regex.append(repeatedPart.substring(1, repeatedPart.length() - 2));
         return regex.toString();
     }

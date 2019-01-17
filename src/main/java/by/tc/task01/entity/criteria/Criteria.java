@@ -18,7 +18,8 @@ public class Criteria<E> {
 		return criteria;
 	}
 
-	public void setCriteria(Map<E, Object> criteria) {
+	public void setCriteria(Map<E, Object> criteria)
+	{
 		this.criteria = criteria;
 	}
 
@@ -43,7 +44,6 @@ public class Criteria<E> {
 		for (Map.Entry<E, Object> entry : criteria.entrySet()) {
 			stringBuilder.append("\t"+entry.getKey()+" : "+entry.getValue()+"\n");
 		}
-
 		return stringBuilder.toString();
 
 		}

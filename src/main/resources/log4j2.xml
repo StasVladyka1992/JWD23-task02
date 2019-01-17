@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Appenders>
         <!-- File Appender -->
-        <File name="File" fileName="src\main\resources\log.txt">
+        <File name="File" fileName="log\log.txt">
             <PatternLayout
                     pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
 

@@ -4,40 +4,30 @@ import by.tc.task01.dao.ApplianceDAO;
 import by.tc.task01.dao.DAOFactory;
 import by.tc.task01.entity.appliance.Appliance;
 import by.tc.task01.entity.criteria.Criteria;
-import by.tc.task01.exception.AnalogIOException;
-import by.tc.task01.exception.NoParametersException;
-import by.tc.task01.exception.NullReferenceException;
+import by.tc.task01.exception.*;
 import by.tc.task01.service.ApplianceService;
-import by.tc.task01.service.validation.CriteriaValidator;
+import by.tc.task01.service.util.CriteriaValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Map;
 
 
-public class ApplianceServiceImpl implements ApplianceService{
-	private static final Logger logger = LogManager.getLogger(ApplianceServiceImpl.class);
+public class ApplianceServiceImpl implements ApplianceService {
+    private static final Logger logger = LogManager.getLogger(ApplianceServiceImpl.class);
 
-	public <E> ArrayList<Appliance> find(Criteria<E> criteria) throws AnalogIOException, NullReferenceException,
-			NoParametersException, URISyntaxException {
-		logger.info("Validating criteria");
-		if (!CriteriaValidator.criteriaValidator(criteria)) {
-			return null;
-		}
-		logger.info("Validation is done");
-		DAOFactory factory = DAOFactory.getInstance();
-		ApplianceDAO applianceDAO = factory.getApplianceDAO();
-		ArrayList<Appliance> appliances;
+    public <E> ArrayList<Appliance> find(Criteria<E> criteria) throws IncorrectPathToFileException, AnalogIOException {
+        logger.info("Validating criteria");
+        if (!CriteriaValidator.criteriaValidator(criteria)) {
+            return null;
+        }
+        logger.info("Validation is done");
+        DAOFactory factory = DAOFactory.getInstance();
+        ApplianceDAO applianceDAO = factory.getApplianceDAO();
 
-		appliances = applianceDAO.find(criteria);
-
-
-
-		// you may add your own code here
-
-		return appliances;
-	}
+        ArrayList<Appliance> appliances = applianceDAO.find(criteria);
+        return appliances;
+    }
 }
 
-//you may add your own new classes
