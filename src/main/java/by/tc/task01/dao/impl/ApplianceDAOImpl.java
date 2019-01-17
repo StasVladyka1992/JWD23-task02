@@ -67,7 +67,8 @@ public class ApplianceDAOImpl implements ApplianceDAO {
         ArrayList<String> entitiesList = splitString(goodsList);
         logger.info("Parsing of matched strings is done");
         logger.info("Appliances creation started");
-        ArrayList<Appliance> appliance = AppliencesFactory.getAppliance(entitiesList);
+        AppliencesFactory appliencesFactory = AppliencesFactory.getInstance();
+        ArrayList<Appliance> appliance = appliencesFactory.getAppliance(entitiesList);
         logger.info("Appliances creation is done");
         return appliance;
     }

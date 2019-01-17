@@ -8,12 +8,18 @@ import java.util.ArrayList;
  * on 23.12.2018 at 20:22
  **/
 public final class AppliencesFactory {
-    public static ArrayList<Appliance> getAppliance(ArrayList<String> list) {
-        ArrayList<Appliance> appliancesList = new ArrayList<Appliance>();
+    private static AppliencesFactory instance = new AppliencesFactory();
+    private static ArrayList<Appliance> appliancesList = new ArrayList<>();
+
+    private AppliencesFactory(){};
+
+    public static AppliencesFactory getInstance(){
+        return instance;
+    }
+    public ArrayList<Appliance> getAppliance(ArrayList<String> list) {
         if (list.size()==0) {
             return appliancesList;
         }
-
         //finding type of object
         if (list.get(0).equalsIgnoreCase("Oven")) {
             int numberOfFields = Oven.class.getDeclaredFields().length + 1;
@@ -45,7 +51,7 @@ public final class AppliencesFactory {
             }
         }
 
-        if (list.get(0).equalsIgnoreCase("Laptop")) {
+         else if (list.get(0).equalsIgnoreCase("Laptop")) {
             int numberOfFields = Laptop.class.getDeclaredFields().length + 1;
             int objectsToReturnCounter = list.size() / numberOfFields;
             for (int i = 0; i < objectsToReturnCounter; i++) {
@@ -75,7 +81,7 @@ public final class AppliencesFactory {
             }
         }
 
-        if (list.get(0).equalsIgnoreCase("Refrigerator")) {
+        else if (list.get(0).equalsIgnoreCase("Refrigerator")) {
             int numberOfFields = Refrigerator.class.getDeclaredFields().length + 1;
             int objectsToReturnCounter = list.size() / numberOfFields;
             for (int i = 0; i < objectsToReturnCounter; i++) {
@@ -104,7 +110,7 @@ public final class AppliencesFactory {
             }
         }
 
-        if (list.get(0).equalsIgnoreCase("VacuumCleaner")) {
+       else if (list.get(0).equalsIgnoreCase("VacuumCleaner")) {
             int numberOfFields = VacuumCleaner.class.getDeclaredFields().length + 1;
             int objectsToReturnCounter = list.size() / numberOfFields;
             for (int i = 0; i < objectsToReturnCounter; i++) {
@@ -132,7 +138,7 @@ public final class AppliencesFactory {
             }
         }
 
-        if (list.get(0).equalsIgnoreCase("TabletPC")) {
+       else if (list.get(0).equalsIgnoreCase("TabletPC")) {
             int numberOfFields = TabletPC.class.getDeclaredFields().length + 1;
             int objectsToReturnCounter = list.size() / numberOfFields;
             for (int i = 0; i < objectsToReturnCounter; i++) {
@@ -160,7 +166,7 @@ public final class AppliencesFactory {
             }
         }
 
-        if (list.get(0).equalsIgnoreCase("Speakers")) {
+        else if (list.get(0).equalsIgnoreCase("Speakers")) {
             int numberOfFields = Speakers.class.getDeclaredFields().length + 1;
             int objectsToReturnCounter = list.size() / numberOfFields;
             for (int i = 0; i < objectsToReturnCounter; i++) {
