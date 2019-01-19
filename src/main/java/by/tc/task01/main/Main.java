@@ -62,15 +62,15 @@ public class Main {
         logger.info("Printing objects with specified criteria is done\n");
 
 
-//        Criteria<VacuumCleaner> vacuumCriteria = new Criteria<VacuumCleaner>();
-//        vacuumCriteria.add(VacuumCleaner.WAND_TYPE, "all-in-one");
-//        logger.info("Criteria object 'VacuumCleaner' is created");
-//
-//        appliances = service.find(vacuumCriteria);
-//
-//        logger.info("Printing objects with specified criteria");
-//        PrintApplianceInfo.print(appliances, vacuumCriteria);
-//        logger.info("Printing objects with specified criteria is done\n");
+        Criteria<VacuumCleaner> vacuumCriteria = new Criteria<VacuumCleaner>();
+        vacuumCriteria.add(VacuumCleaner.WAND_TYPE, "all-in-one");
+        logger.info("Criteria object 'VacuumCleaner' is created");
+
+        appliances = service.find(vacuumCriteria);
+
+        logger.info("Printing objects with specified criteria");
+        PrintApplianceInfo.print(appliances, vacuumCriteria);
+        logger.info("Printing objects with specified criteria is done\n");
 
     }
 }

@@ -2,6 +2,8 @@ package by.tc.task01.service.impl;
 
 import by.tc.task01.dao.ApplianceDAO;
 import by.tc.task01.dao.DAOFactory;
+import by.tc.task01.dao.util.regex_constructor.RegExConstructor;
+import by.tc.task01.dao.util.regex_constructor.StandardRegExConstructorImpl;
 import by.tc.task01.entity.appliance.Appliance;
 import by.tc.task01.entity.criteria.Criteria;
 import by.tc.task01.exception.*;
@@ -25,8 +27,11 @@ public class ApplianceServiceImpl implements ApplianceService {
         logger.info("Validation is done");
         DAOFactory factory = DAOFactory.getInstance();
         ApplianceDAO applianceDAO = factory.getApplianceDAO();
-
-        ArrayList<Appliance> appliances = applianceDAO.find(criteria);
+        // I added RegExConstructor in this method because:
+        // I want to have opportunity to configure searching in different ways. For example:
+        // somebody come up with a new, quicker version of searching. In this case new version of searching can be used
+        RegExConstructor regExConstructor = new StandardRegExConstructorImpl();
+        ArrayList<Appliance> appliances = applianceDAO.find(criteria, regExConstructor);
         return appliances;
     }
 }

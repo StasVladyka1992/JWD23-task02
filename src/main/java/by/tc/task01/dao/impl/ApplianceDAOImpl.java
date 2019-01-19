@@ -1,6 +1,7 @@
 package by.tc.task01.dao.impl;
 
 import by.tc.task01.dao.ApplianceDAO;
+import by.tc.task01.dao.util.regex_constructor.RegExConstructor;
 import by.tc.task01.entity.AppliencesFactory;
 import by.tc.task01.entity.appliance.Appliance;
 import by.tc.task01.entity.criteria.Criteria;
@@ -17,17 +18,16 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.tc.task01.dao.util.regex_constructor.RegExConstructor.constructRegEx;
 import static by.tc.task01.dao.util.string_splitter.StringSplitter.splitString;
 
 public class ApplianceDAOImpl implements ApplianceDAO {
     private final static Logger logger = LogManager.getLogger(ApplianceDAOImpl.class);
 
-    public <E> ArrayList<Appliance> find(Criteria<E> criteria) throws AnalogIOException, IncorrectPathToFileException {
+    public <E> ArrayList<Appliance> find(Criteria<E> criteria, RegExConstructor regExConstructor) throws AnalogIOException, IncorrectPathToFileException {
 
         //creation of criteria regex pattern
         logger.info("Start of regex construction from specified criteria");
-        String regex = constructRegEx(criteria);
+        String regex = regExConstructor.constructRegEx(criteria);
         logger.info("Regex construction is done");
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher;

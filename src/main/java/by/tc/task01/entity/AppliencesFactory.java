@@ -9,7 +9,6 @@ import java.util.ArrayList;
  **/
 public final class AppliencesFactory {
     private static AppliencesFactory instance = new AppliencesFactory();
-    private static ArrayList<Appliance> appliancesList = new ArrayList<>();
 
     private AppliencesFactory(){};
 
@@ -17,8 +16,9 @@ public final class AppliencesFactory {
         return instance;
     }
     public ArrayList<Appliance> getAppliance(ArrayList<String> list) {
+        ArrayList <Appliance> appliancesList = new ArrayList<>();
         if (list.size()==0) {
-            return appliancesList;
+            return new ArrayList<>();
         }
         //finding type of object
         if (list.get(0).equalsIgnoreCase("Oven")) {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class PrintApplianceInfo {
     public static <E> void print(ArrayList<Appliance> appliances, Criteria<E> criteria) {
-
         if (appliances == null) {
             System.out.println("Criteria wasn't specified correctly\n");
         } else if (appliances.size() == 0) {
